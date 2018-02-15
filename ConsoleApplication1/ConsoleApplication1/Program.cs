@@ -10,7 +10,7 @@ namespace ConsoleApplication1
     {
         static private int _consoleState = 0;
         static private bool _nextState = false;
-        static private DateTime currentDate = new DateTime(2018, 6, 1);
+        
         static void Main(string[] args)
         {
 
@@ -29,41 +29,50 @@ namespace ConsoleApplication1
             // passing ball system, when any sub-manu use ture, but on main use false
             // When pass back ture, it will initially exit program.
             {
-                Console.WriteLine("Main Menu:");
-                Console.WriteLine("Type an int tell us what would you want to do:");
-                Console.WriteLine("(1)CreateSaleTransactionMenu:");
-                Console.WriteLine("(2)ReturnItemsMenu:");
-                Console.WriteLine("(3)EnterRebateMenu:");
-                Console.WriteLine("(4)GenerateRebateChek:");
-                Console.WriteLine("(5)Exit System:");
-                Console.Write("Please type integer 1-5: ");
-                string input = Console.ReadLine();
-
-                _consoleState = Convert.ToInt32(input);
-                switch (_consoleState) 
+                try
                 {
-                    case 1:
-                        _nextState = true;
-                        CreateSaleTransactionMenu();
-                        break;
-                    case 2:
-                        _nextState = true;
-                        ReturnItemsMenu();
-                        break;
-                    case 3:
-                        _nextState = true;
-                        EnterRebateMenu();
-                        break;
-                    case 4:
-                        _nextState = true;
-                        GenerateRebateCheck();
-                        break;
-                    case 5:
-                        _nextState = true;
-                        break;
-                    default:
-                        Console.WriteLine("Wrong type of input, please type single integer 1-5.");
-                        break;
+                    Console.WriteLine("Main Menu:");
+                    Console.WriteLine("Type an int tell us what would you want to do:");
+                    Console.WriteLine("(1)CreateSaleTransactionMenu:");
+                    Console.WriteLine("(2)ReturnItemsMenu:");
+                    Console.WriteLine("(3)EnterRebateMenu:");
+                    Console.WriteLine("(4)GenerateRebateChek:");
+                    Console.WriteLine("(5)Exit System:");
+                    Console.Write("Please type integer 1-5: ");
+                    string input = Console.ReadLine();
+
+                    _consoleState = Convert.ToInt32(input);
+                    switch (_consoleState)
+                    {
+                        case 1:
+                            _nextState = true;
+                            CreateSaleTransactionMenu();
+                            break;
+                        case 2:
+                            _nextState = true;
+                            ReturnItemsMenu();
+                            break;
+                        case 3:
+                            _nextState = true;
+                            EnterRebateMenu();
+                            break;
+                        case 4:
+                            _nextState = true;
+                            GenerateRebateCheck();
+                            break;
+                        case 5:
+                            _nextState = true;
+                            break;
+                        default:
+                            Console.WriteLine("Wrong type of input, please type single integer 1-5.");
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error due to: ");
+                    Console.WriteLine(ex.ToString());
+                    Console.WriteLine("\nDue to error input, Starting over... ... \n");
                 }
             }
         }
@@ -128,7 +137,7 @@ namespace ConsoleApplication1
                     {
                         items[i] = storge.Dequeue();
                         costs[i] =Convert.ToInt32( storge.Dequeue());
-                        Console.WriteLine("Number " +(i+1) +" item, "+items[i]+", cost "+costs[i]);
+                        Console.WriteLine("Number " +(i+1) +" item, "+items[i]+", cost $"+costs[i]);
 
                     }
 
@@ -142,7 +151,7 @@ namespace ConsoleApplication1
                     {
                         
                         int id =  DataBase.idGenerator();
-                        DataBase.AddTransaction(firstName,lastName,items,address,costs,email,id,currentDate);
+                        DataBase.AddTransaction(firstName,lastName,items,address,costs,email,id,DataBase._currentDate);
                         Console.WriteLine("\nCurrent Date is been set to 2018 June 1st.");
                         Console.WriteLine("Your Transition ID is:" + DataBase.getIdFormat(id));
                         Console.WriteLine("Transaction been successfuly add in to DataBase.\n");
@@ -183,7 +192,7 @@ namespace ConsoleApplication1
                 try
                 {
                     string input = "";
-                    Console.WriteLine("Return Items Menu:");
+                    Console.WriteLine("\nReturn Items Menu:");
                     Console.Write("Please type your Transaction ID (example:14): ");
                     int id = Convert.ToInt32( Console.ReadLine());
                     if(!DataBase.CheckTransactionExist(id))
@@ -199,7 +208,7 @@ namespace ConsoleApplication1
                             Console.Write("Which Item would you like to return?(type item name): ");
                             string item= Console.ReadLine();
                             
-                            Console.WriteLine( DataBase.ReturnItem(id,item,currentDate) );
+                            Console.WriteLine( DataBase.ReturnItem(id,item,DataBase._currentDate));
 
                             do
                             {

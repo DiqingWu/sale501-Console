@@ -6,11 +6,17 @@ using System.Threading.Tasks;
 
 namespace ConsoleApplication1
 {
+    // track of the re-enter rebate data changes.
     class DataBase
     {
+        /// <summary>
+        /// database values
+        /// </summary>
         static private Dictionary<int, Transaction> _transactionDataBase = new Dictionary<int, Transaction>();
         static private int _idCount;
         static private Dictionary<int, Rebate> _rebateTransaction = new Dictionary<int, Rebate>();
+        static public DateTime _currentDate = new DateTime(2018, 6, 1);
+
         /// <summary>
         /// constuctor for database
         /// </summary>
@@ -81,13 +87,14 @@ namespace ConsoleApplication1
         /// <param name="time"></param> compare two value 
         /// <param name="rebate"></param>
         /// <returns></returns> return if this transaction if out of date.
-        static public int CheckTransactionDate(DateTime time, Transaction transaction)
+        static public int CheckTransactionDate(DateTime time)//, Transaction transaction)
         {
-            DateTime latestDate = transaction.Date;
+            //DateTime latestDate = transaction.Date;
             //latestDate.AddDays(15);
             //latestDate.AddMonths(1);
             // add 1month and 15 to see the expaire date.
-            return DateTime.Compare(time, latestDate);
+            //return DateTime.Compare(time, latestDate);
+            return DateTime.Compare(time, _currentDate);
         }
 
         /// <summary>
@@ -142,7 +149,7 @@ namespace ConsoleApplication1
         {
             if (!CheckTransactionExist(id))
                 return "Id does not exist.";
-            if (CheckTransactionDate(currentDate, GetTransaction(id)) < 0)
+            if (CheckTransactionDate(currentDate)<0)//, GetTransaction(id)) < 0)
             {
                 return "Date expired, it is too late to return item, need to be in 1 month and 15 days.";
             }
@@ -168,6 +175,7 @@ namespace ConsoleApplication1
                 return "Id is not exist.";
             if (CheckRebateExist(id))
             {
+                _rebateTransaction[id].Date = date;
                 _rebateTransaction[id].Off = rebate;
                 return "Rebate is already exist, value is replaced by new rebate";
 
@@ -193,7 +201,7 @@ namespace ConsoleApplication1
             foreach (int id in _rebateTransaction.Keys)
             {
                 data = GetTransaction(id);
-                if (CheckTransactionDate(_rebateTransaction[id].Date,data) < 0)// check out of date or not
+                if (CheckTransactionDate(_rebateTransaction[id].Date)<0)//,data) < 0)// check out of date or not
                 {
                     output += "Id: " + getIdFormat(id) + " Rebate is out of dates.\n\n";
 
