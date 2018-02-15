@@ -96,6 +96,32 @@ namespace ConsoleApplication1
             //return DateTime.Compare(time, latestDate);
             return DateTime.Compare(time, _currentDate);
         }
+        /// <summary>
+        /// add date to make date july 31
+        /// </summary>
+        /// <param name="rebateDate"></param>
+        /// <returns></returns>
+        static public DateTime FormatexpireDate(DateTime rebateDate)
+        {
+            
+            int year = rebateDate.Year;
+            int month = rebateDate.Month;
+            if (month > 7)
+            {
+                rebateDate= rebateDate.AddYears(1);
+                rebateDate= rebateDate.AddMonths((19-month));
+            }
+            else
+            {
+                rebateDate = rebateDate.AddMonths((7 - month));
+            }
+
+            int day = rebateDate.Day;
+
+            rebateDate = rebateDate.AddDays((31 - day));
+
+            return rebateDate;
+        }
 
         /// <summary>
         /// generate next new id
@@ -177,11 +203,13 @@ namespace ConsoleApplication1
             {
                 _rebateTransaction[id].Date = date;
                 _rebateTransaction[id].Off = rebate;
+                date = FormatexpireDate(date);
                 return "Rebate is already exist, value is replaced by new rebate";
 
-            }   
+            }
+            date = FormatexpireDate(date);
             _rebateTransaction.Add(id, new Rebate(date,rebate));
-            return "Rebate Added successfully";
+            return "Rebate Added successfully";//, expire date been set to(end of the month of July): \n"+date.ToString();
         }
         static private int GetTotalCost(int id)
         {
