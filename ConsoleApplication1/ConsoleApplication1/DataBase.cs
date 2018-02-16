@@ -28,7 +28,7 @@ namespace ConsoleApplication1
         /// <param name="email"></param>
         /// <param name="id"></param>
         /// <param name="date"></param>
-        static public void AddTransaction(string first, string last, string[] items, string address, int[] cost, string email, int id, DateTime date)
+        static public void AddTransaction(string first, string last, string[] items, string address, double[] cost, string email, int id, DateTime date)
         {
 
             if (!CheckTransactionExist(id))
@@ -130,7 +130,7 @@ namespace ConsoleApplication1
             string output = "";
             Transaction data = GetTransaction(id);
             string[] items = data.Items;
-            int[] costs = data.Costs;
+            double[] costs = data.Costs;
             if (items.Length != costs.Length)
                 return "Data Implement incorrcet.";
             for (int i=0;i<costs.Length;i++)

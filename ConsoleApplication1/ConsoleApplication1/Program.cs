@@ -131,12 +131,12 @@ namespace ConsoleApplication1
                     Console.WriteLine("Email: " + email);
 
                     string[] items = new string[count];
-                    int[] costs = new int[count];
+                    double[] costs = new double[count];
                     //count = 0;
                     for(int i =0;i<count;i++)
                     {
                         items[i] = storge.Dequeue();
-                        costs[i] =Convert.ToInt32( storge.Dequeue());
+                        costs[i] =Convert.ToDouble( storge.Dequeue());
                         Console.WriteLine("Number " +(i+1) +" item, "+items[i]+", cost $"+costs[i]);
 
                     }
