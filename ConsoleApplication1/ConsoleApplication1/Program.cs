@@ -258,7 +258,7 @@ namespace ConsoleApplication1
                     int id = Convert.ToInt32( Console.ReadLine());
                     Console.Write("Enter amount of rebate.(example,if 11% enter 11):");
                     double rebate = Convert.ToDouble(Console.ReadLine());
-                    Console.Write("Enter expire date for rebate.(MM/DD/YY): ");
+                    Console.Write("Enter expire date for rebate.(MM/DD/YYYY): ");
                     string[] line =  Console.ReadLine().Split('/');
                     Console.WriteLine( DataBase.EnterRebate(id, rebate, new DateTime(Convert.ToInt32(line[2]), Convert.ToInt32(line[0]), Convert.ToInt32(line[1]))));
 
